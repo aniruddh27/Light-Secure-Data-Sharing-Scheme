@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{%block title%}{%endblock%}
+{%block logo%} Light Secure Data Sharing Scheme - Owner {% endblock %}
+{% block navMenu %}
+
+<ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{%url 'owner:home' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{%url 'owner:keyManagement' %}">Key Management</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{%url 'owner:cryptography' %}">Cryptography</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{%url 'owner:uploadFile' %}">Upload File</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{%url 'owner:uploadedFile' %}">Uploaded File</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{%url 'owner:revocationNotification' %}">Revocation Notification</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{%url 'owner:reEncryptedFile' %}">Re-encrypted</a>
+        </li>
+
+        <li class="nav-item">
+                <a class="nav-link" href="{%url 'accounts:logout' %}">Logout</a>
+        </li>
+      </ul>
+
+ {% endblock %}
+{%block content%}
+  {% block ownerContent %}
+
+  {% endblock %}
+{% endblock %}

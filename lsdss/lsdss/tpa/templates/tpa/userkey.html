@@ -1,0 +1,67 @@
+{% extends 'tpa/tpa_base.html' %}
+{%block title%}TPA | User Key{%endblock%}
+{%block tpaContent%}
+<div class="container">
+    <h1>User's Key Management</h1>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">User Name</th>
+            <th scope="col">Attribute List</th>
+            <th scope="col">Key</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for duta in dutaData %}
+          <tr>
+            <td>{{duta.user_name}}</td>
+            <td>{{duta.attributes.user.username}},{{duta.attributes.user.email}},{{duta.attributes.mobile}}</td>
+            <td>{{duta.pub_key}}</td>
+            <td>{{duta.status}}</td>
+            <td>
+                {% if duta.status == "Key Generated"  %}
+                <!-- <a href="javascript:{document.getElementById('generateUserKey{{duta.id}}').submit()}" >
+                    <button type="submit" class="btn btn-success" name="_generateKeyBtn" id="generateKeyBtn" value="Done" disabled>Key Generated </button>
+                </a> -->
+                <a href="javascript:{document.getElementById('sendUserKey{{duta.id}}').submit()}" >
+                    <button type="submit" class="btn btn-primary" name="_sendKeyBtn" id="sendKeyBtn" value="Send Key" onclick="sendKey()">Send Key</button>
+                </a>
+
+                {%elif duta.status == "Key Sent to User" %}
+                None
+                <!-- <a href="javascript:{document.getElementById('generateUserKey{{duta.id}}').submit()}" >
+                    <button type="submit" class="btn btn-success" name="_generateKeyBtn" id="generateKeyBtn" value="Done" disabled>Generated Key</button>
+                </a>
+                <a href="javascript:{document.getElementById('sendUserKey{{duta.id}}').submit()}" >
+                    <button type="submit" class="btn btn-success" name="_sendKeyBtn" id="sendKeyBtn" value="Send Key" onclick="sendKey()" disabled>Key Sent</button>
+                </a> -->
+
+                {%else%}
+                <a href="javascript:{document.getElementById('generateUserKey{{duta.id}}').submit()}" >
+                    <button type="submit" class="btn btn-primary" name="_generateKeyBtn" id="generateKeyBtn" value="Done">Generate Key</button>
+                </a>
+                <!-- <a href="javascript:{document.getElementById('sendUserKey{{duta.id}}').submit()}" >
+                    <button type="submit" class="btn btn-primary" name="_sendKeyBtn" id="sendKeyBtn" value="Send Key" onclick="sendKey()" disabled>Send Key</button>
+                </a> -->
+                {% endif %}
+            </td>
+          </tr>
+          <!-- FORM:Encrypt file -->
+          <form action="{% url 'tpa:generateUserPubKey' duta.id %}" id="generateUserKey{{duta.id}}" method="post">
+              {% csrf_token %}
+              <!-- <input type="hidden" name=""> -->
+          </form>
+
+          <!-- FORM:Encrypt file -->
+          <form action="{% url 'tpa:sendUserPubKey' duta.id %}" id="sendUserKey{{duta.id}}" method="post">
+            {% csrf_token %}
+            <!-- <input type="hidden" name=""> -->
+          </form>
+          {% endfor %}
+
+        </tbody>
+      </table>
+</div>
+{% endblock %}

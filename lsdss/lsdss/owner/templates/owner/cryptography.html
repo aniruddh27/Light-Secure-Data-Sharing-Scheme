@@ -1,0 +1,69 @@
+{% extends 'owner/owner_base.html' %}
+{%block title%}Owner | Home{%endblock%}
+{%block ownerContent%}
+    <div class="container">
+        <h1>Cryptography</h1>
+        <hr>
+        <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">File Name</th>
+                    <th scope="col">File</th>
+                    <th scope="col">Key</th>
+                    <th scope="col">Encrypted File</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {%for doesp in doespData%}
+                        {% if not doespData.status  %}
+                            <tr>
+                                <td>{{doesp.file_name}}</td>
+                                <!-- <td><a href="../{{doesp.owner.owner_file.url}}">{{doesp.owner.owner_file}}</a></td> -->
+                                <td><a href="../{{userFile}}">{{userFile}}</a></td>
+                                <td>{{doesp.pub_key}}</td>
+                                {% if doesp.status == "File Sent to Owner"%}
+                                <td><a href="../{{doesp.enc_file}}">{{doesp.enc_file}}</a></td>
+                                <th>File Encrypted</th>
+                                <td>
+
+                                    <a  href="{%url 'owner:uploadFiletoCloud' doesp.id%}" data-toggle="tooltip" data-placement="top" title="Upload to Cloud" >
+                                            <button id="uploadCloudBtn" class="btn btn-primary">
+                                                <i class="fas fa-cloud-upload-alt"></i></button>
+                                        </a>
+                                </td>
+                                {% elif doesp.status == "File Uploaded"%}
+                                <td><a href="../{{doesp.enc_file}}">{{doesp.enc_file}}</a></td>
+                                <td>File Uploaded</td>
+                                <td>
+                                    None
+                                    <!-- <a  href="{%url 'owner:uploadFiletoCloud' doesp.id%}" data-toggle="tooltip" data-placement="top" title="Upload to Cloud" >
+                                            <button id="uploadCloudBtn" class="btn btn-success" disabled>
+                                                <i class="fas fa-cloud-upload-alt"></i></button>
+                                        </a> -->
+                                </td>
+                                {%else%}
+                                <td></td>
+                                <th>{{doesp.status}}</th>
+                                <td>
+                                    <a  href="javascript:{document.getElementById('uploadFileCloud{{doesp.id}}').submit()}" data-toggle="tooltip" data-placement="top" title="Upload to Cloud" >
+                                        <button  class="btn btn-primary" disabled>
+                                            <i class="fas fa-cloud-upload-alt"></i></button>
+                                    </a>
+                                {% endif %}
+                            </tr>
+                        {% endif %}
+
+
+                        
+
+                      
+                  {% endfor %}
+                  
+                </tbody>
+              </table>
+
+              
+    </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'cloud/cloud_base.html' %}
+{%block title%}Cloud | Home{%endblock%}
+{%block cloudContent%}
+    <div class="container">
+        <h1>Owner Uploaded Files</h1>
+        <hr>
+        <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">File Name</th>
+                    <th scope="col">File</th>
+                    <th scope="col">Attributes</th>
+                    <th scope="col">Policies</th>
+                    <th scope="col">Total Downloads</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {%for ct in ctData%}
+                  <tr>
+                    <td>{{ct.owner_name}}</td>
+                    <td>{{ct.file_name}}</td>
+                    {%if ct.status == 'File Uploaded'%}
+                    <td>{{ct.enc_file}}</td>
+                    {%else%}
+                    <td>{{ct.reEnc_file}}</td>
+                    {%endif%}
+                    <td>{{ct.attributes}}</td>
+                    <td>{{ct.policies}}</td>
+                    <td>{{ct.downloadCount}}</td>
+                  </tr>
+                  {%endfor%}
+                </tbody>
+              </table>
+    </div>
+{% endblock %}

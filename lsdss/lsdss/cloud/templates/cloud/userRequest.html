@@ -1,0 +1,151 @@
+{% extends 'cloud/cloud_base.html' %}
+{%block title%}Cloud | Request{%endblock%}
+{%block cloudContent%}
+<div class="container">
+    <h2>User Requests</h2>
+    <hr>
+    <table class="table">
+
+
+        <thead>
+            <th>User Name</th>
+            <th>Key</th>
+            <th>Attributes</th>
+            {%if status == 'Verified' %}
+            <th>File Name</th>
+            <th>File</th>
+            {%elif status == 'File Sent to User' %}
+            <th>File Name</th>
+            <th>File</th>
+            {% endif %}
+            <th>status</th>
+
+            <th>Action</th>
+        </thead>
+
+            <tbody>
+                {%for duc in ducData%}
+                {% if duc.status != "Verified" and duc.status != "File Sent to User" and duc.status != "File Sent for Decryption" %}
+                <tr>
+                    <td>{{duc.user_name}}</td>
+                    <td>{{duc.pub_key}}</td>
+                    <td>{{duc.attributes}}</td>
+                    {%if duc.status == 'Verified' %}
+                    <td>Verified</td>
+                    <td>{{duc.file_name}}</td>
+                    <td>{{duc.enc_file}}</td>
+                    {%elif duc.status == 'File Sent to User' %}
+                    <td>File Sent to User to User</td>
+                    <td>{{duc.file_name}}</td>
+                    <td>{{duc.enc_file}}</td>
+                    {%elif duc.status == 'File Requested to Cloud'%}
+                    <td>File Requested by User</td>
+                    {%elif duc.status == 'Not Verified'%}
+                    <td>Policy Not Matched</td>
+                    {% endif %}
+                    <td>
+                            {% if duc.status == "Verified"  %}
+                            <!-- <a href="javascript:{document.getElementById('verifyAttributes{{duc.id}}').submit()}" >
+                                <button type="submit" class="btn btn-success" name="_verifyBtn" id="verifyBtn" value="Verify" disabled>Verified </button>
+                            </a> -->
+                            <a href="javascript:{document.getElementById('sendFile{{duc.id}}').submit()}" >
+                                <button type="submit" class="btn btn-primary" name="_sendFileBtn" id="sendFileBtn" value="Send" onclick="sendKey()">Send</button>
+                            </a>
+                            <!-- <a href="javascript:{document.getElementById('verifyAttributes{{duc.id}}').submit()}" >
+                                <button type="submit" class="btn btn-success" name="_verifyBtn" id="verifyBtn" value="Verify" disabled>Verified</button>
+                            </a>
+                            <a href="javascript:{document.getElementById('sendFile{{duc.id}}').submit()}" >
+                                <button type="submit" class="btn btn-success" name="_sendFileBtn" id="sendFileBtn" value="Sent" onclick="sendKey()" disabled>Sent</button>
+                            </a> -->
+
+                            {%elif duc.status == "Not Verified" %}
+                            <!-- <a href="javascript:{document.getElementById('verifyAttributes{{duc.id}}').submit()}" >
+                                <button type="submit" class="btn btn-success" name="_verifyBtn" id="verifyBtn" value="Verify" disabled>Verify</button>
+                            </a> -->
+                            <!-- <a href="javascript:{document.getElementById('sendFile{{duc.id}}').submit()}" >
+                                <button type="submit" class="btn btn-primary" name="_sendFileBtn" id="sendFileBtn" value="Sent" onclick="sendKey()" disabled>Send</button>
+                            </a> -->
+                            None
+                            {%elif duc.status == "File Sent to User" %}
+                            None
+                            {%else%}
+                            <a href="javascript:{document.getElementById('verifyAttributes{{duc.id}}').submit()}" >
+                                <button type="submit" class="btn btn-primary" name="_verifyBtn" id="verifyBtn" value="Verify">Verify</button>
+                            </a>
+                            <!-- <a href="javascript:{document.getElementById('sendFile{{duc.id}}').submit()}" >
+                                <button type="submit" class="btn btn-primary" name="_sendFileBtn" id="sendFileBtn" value="Send" onclick="sendKey()" disabled>Send</button>
+                            </a> -->
+                            {% endif %}
+
+                    </td>
+                    <!-- <td>
+                            {% if duc.status == 'Verified' %}
+                            <th>{{duc.status}}</th>
+                            {% elif duc.status == 'Not Verified' %}
+                            <th>{{duc.status}}</th>
+                            {% elif duc.status == 'File Sent to User' %}
+                            <th>{{duc.status}}</th>
+                            {% endif %}
+                    </td> -->
+                </tr>
+                    <!-- FORM:Encrypt file -->
+                    <form action="{% url 'cloud:verifyAttributes' duc.id %}" id="verifyAttributes{{duc.id}}" method="post">
+                            {% csrf_token %}
+                            <!-- <input type="hidden" name=""> -->
+                    </form>
+                    {%endif%}
+            {%endfor%}
+
+            </tbody>
+    </table>
+    <h2>Verified Requests</h2>
+    <table class="table">
+
+
+            <thead>
+                <th>User Name</th>
+                <th>Key</th>
+                <th>Attributes</th>
+                <th>File Name</th>
+                <th>File</th>
+                <th>status</th>
+
+                <th>Action</th>
+            </thead>
+
+                <tbody>
+                    {%for duc in ducData%}
+                    {% if duc.status == "Verified" or duc.status == "File Sent to User" %}
+                    <tr>
+                        <td>{{duc.user_name}}</td>
+                        <td>{{duc.pub_key}}</td>
+                        <td>{{duc.attributes}}</td>
+                        <td>{{duc.file_name}}</td>
+                        <td>{{duc.enc_file}}</td>
+                        {% if duc.status == "Verified"  %}
+                        <td>Verified</td>
+                        {%elif duc.status == "File Sent to User"  %}
+                        <td>File Sent to User</td>
+                        {% endif %}
+                        <td>
+                                {% if duc.status == "Verified"  %}
+
+                                <a href="javascript:{document.getElementById('sendFile{{duc.id}}').submit()}" >
+                                    <button type="submit" class="btn btn-primary" name="_sendFileBtn" id="sendFileBtn" value="Send" onclick="sendKey()">Send</button>
+                                </a>
+                                {%elif duc.status == "File Sent to User" %}
+                                None
+                                {%endif%}
+                        </td>
+                        </tr>
+                          <!-- FORM:Encrypt file -->
+                    <form action="{% url 'cloud:sendUserFile' duc.id %}" id="sendFile{{duc.id}}" method="post">
+                            {% csrf_token %}
+                            <!-- <input type="hidden" name=""> -->
+                        </form>
+                        {%endif%}
+                    {% endfor %}
+                        </tbody>
+                    </table>
+</div>
+{% endblock %}

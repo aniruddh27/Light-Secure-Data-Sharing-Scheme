@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+{%block logo%} Light Secure Data Sharing Scheme {% endblock %}
+{% block navMenu %}
+
+<ul class="navbar-nav ml-auto ">
+        <li class="nav-item active">
+          <a class="nav-link" href="{%url 'adminApp:register'%}">Home <span class="sr-only">(current)</span></a>
+        </li>
+
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="{%url 'adminApp:adminHome'%}">Admin <span class="sr-only">(current)</span></a>
+        </li>
+
+        <li class="nav-item ">
+                <a class="nav-link" href="{% url 'owner:home' %}">Owner<span class="sr-only">(current)</span></a>
+        </li>
+
+       <li class="nav-item ">
+            <a class="nav-link" href="{%url 'user:home' %}">User <span class="sr-only">(current)</span></a>
+        </li>
+
+        <li class="nav-item ">
+            <a class="nav-link" href="{%url 'tpa:home' %}">TPA <span class="sr-only">(current)</span></a>
+        </li>
+
+        <li class="nav-item ">
+            <a class="nav-link" href="{%url 'encdec:home' %}">Cryptography Manager <span class="sr-only">(current)</span></a>
+        </li> -->
+
+       
+        <button type="button" class="btn btn-primary" data-dismiss="modal" 
+    data-toggle="modal" data-modal="registerModal" id="registerButton"  data-target="#registerModal">Register/Login</button>
+
+        <!-- <button class="btn btn-primary" class="showFormButton"  id="loginButton" >Login</button> -->
+        <!-- <button class="btn btn-primary" class="showFormButton"  id="registerButton" >Register/Login</button> -->
+
+        <!-- <button type="button" class="btn btn-primary" data-dismiss="modal" 
+    data-toggle="modal" data-modal="loginModal" id="loginButton"  data-target="#loginModal">Login</button> -->
+
+      </ul>
+
+ {% endblock %}
+
+
+{% block content %}
+{% if error %}
+      {{error}}
+{% endif %}
+
+      <div class="mt-2 proCarousel">
+
+      
+        <div id="carouselExampleSlidesOnly" class="carousel slide " data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="https://open-stand.org/wp-content/uploads/2017/12/Screen-Shot-2017-12-06-at-10.42.09-AM.png" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                    <img src="http://solopracticeuniversity.com/files/2018/04/cyber-security.png" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                    <img src="https://e-channelnews.com/wp-content/uploads/2018/05/CloudSecurity2-696x348.jpg" class="d-block w-100" alt="...">
+                    </div>
+
+                    <div class="carousel-item">
+                    <img src="https://i.kinja-img.com/gawker-media/image/upload/s--SGs2aMWj--/c_scale,f_auto,fl_progressive,q_80,w_800/jgpeuoavmn7pwbh98ycs.jpg" class="d-block w-100" alt="...">
+                    </div>
+                </div>
+        </div>
+      </div>
+        
+       
+    <div class="card container mt-2 mb-2">
+        <div class="card-title"></div>
+        <div class="card-content">
+
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos tempore suscipit minus consequatur eligendi dolor accusamus! Optio, iste quod earum natus doloremque quia. Quam velit ab error exercitationem. Laudantium, debitis.
+        </div>
+    </div>
+
+    
+
+    <!-- Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
+    <div class="modal-dialog  modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Register/Login</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Register</a>
+                  <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Login</a>
+                  <!-- <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a> -->
+                </div>
+              </nav>
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="container">
+
+                    
+                        <form action="{%url 'accounts:signup'%}" method="POST" class="mt-2" id="registerForm" >
+                            {% csrf_token %}
+                            <div class="form-group">
+                              
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                      <input type="text" class="form-control" name="username" required id="id_username" placeholder="Username">
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                      <input type="password" class="form-control" name="password" required id="id_password" placeholder="Password">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                      <input type="text" class="form-control" name="first_name" required id="id_first_name" placeholder="First Name">
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                      <input type="text" class="form-control" name="last_name" required id="id_last_name" placeholder="Last Name">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                      <input type="text" class="form-control" name="email" required id="id_email" placeholder="Email">
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                      <input type="text" class="form-control" name="mobile" required id="id_mobile" placeholder="Mobile">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <textarea  class="form-control" name="address" required id="id_address" rows="5" cols="60" placeholder="Address"></textarea>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <input type="text" class="form-control" name="city" required id="id_city" placeholder="City">
+                                      </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <!-- <label for="">Role</label> -->
+                                            <select class="form-control" name="module" required id="id_module">
+                                              <option value="-1">Select Role</option>
+                                              <option value="Owner">Owner</option>
+                                              <option value="User">User</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                  <input type="submit" value="Register" class="btn btn-primary" id="registerData">
+                                
+                                    <!-- <button type="submit" class="btn btn-primary " id="registerData">Register</button> -->
+                                 
+                                  </div>
+                                
+                          </form>                        
+                </div>
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                  
+                    <form action="{%url 'accounts:login'%}" class="mt-4" id="loginForm" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          
+                          <div class="row">
+                              <div class="offset-xl-2 col-xl-8 offset-lg-2 col-lg-8 offset-md-2 col-md-8 col-sm-6 col-12">
+                                <input type="text" class="form-control" name="loginUsername" id="id_loginUsername" placeholder="Username"><br>
+                              </div>
+                              <div class="offset-xl-2 col-xl-8 offset-lg-2 col-lg-8 offset-md-2 col-md-8 col-sm-6 col-12">
+                                <input type="password" class="form-control" name="loginPassword" id="id_loginPassword" placeholder="Password">
+                              </div>
+                          </div>  
+                          
+                            <button type="submit" class="btn btn-primary offset-xl-2 mt-2">Login</button>
+                          
+                    </form>
+                </div>
+               
+              </div>
+
+            
+
+                
+                </div>
+        </div> <!-- end of modal body -->
+        
+      </div>
+  </div> <!-- end of register modal -->
+
+
+  
+{% endblock %}
+
+

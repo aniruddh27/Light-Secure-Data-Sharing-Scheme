@@ -1,0 +1,42 @@
+{% extends 'user/user_base.html' %}
+{%block title%}User | Files{%endblock%}
+{%block userContent%}
+<div class="container mt-2">
+<h2>Decrypted Files</h2>
+<hr>
+
+<table class="table">
+    <thead>
+        <th>File Name</th>
+        <th>Decrypted File</th>
+        <th>File Status</th>
+        <th>Action</th>
+    </thead>
+        <tbody>
+            {%for dudec in dudecs%}
+            {%if dudec.status == 'Decrypted File Sent' %}
+            <tr>
+                <td>{{dudec.file_name}}</td>
+                <td>{{dudec.dec_file}}</td>
+                {%if dudec.status == 'Decrypted File Sent' %}
+                <td>File Recieved</td>
+                {%else%}
+                <td>{{dudec.status}}</td>
+                {%endif%}
+                <td> <a  href="../../{{dudec.dec_file}}"><button class="btn btn-primary" > View File</button> </a></td>
+                <!-- <td><a  href="javascript:{document.getElementById('viewDecryptedFile{{dudec.id}}').submit()}"><button class="btn btn-primary"> View </button></a></td> -->
+            </tr>
+
+            {%endif%}
+            {%endfor%}
+        </tbody>
+</table>
+
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'tpa/tpa_base.html' %}
+{%block title%}TPA | Uploaded Files{%endblock%}
+{%block tpaContent%}
+    <div class="container">
+        <h1>Owner Uploaded Files</h1>
+        <hr>
+        <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">File Name</th>
+                    <th scope="col">File</th>
+                    <th scope="col">Attributes</th>
+                    <th scope="col">Policies</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {%for ct in ctData%}
+                  <tr>
+                    <td>{{ct.owner_name}}</td>
+                    <td>{{ct.file_name}}</td>
+                    <td>{{ct.enc_file}}</td>
+                    <td>{{ct.attributes}}</td>
+                    <td>{{ct.policies}}</td>
+                  </tr>
+                  {%endfor%}
+                </tbody>
+              </table>
+    </div>
+{% endblock %}

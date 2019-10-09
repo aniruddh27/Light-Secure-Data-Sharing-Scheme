@@ -1,0 +1,72 @@
+{% extends 'user/user_base.html' %}
+{%block title%}User | Owner Notification{%endblock%}
+{%block userContent%}
+    <div class="container mt-2">
+        <h2>Owner Notification</h2>
+        <hr>
+        <table class="table">
+            <thead>
+                <th>Owner Name</th>
+                <th>File Name</th>
+                <th>Attributes</th>
+                <th>Action</th>
+                <th>Status</th>
+            </thead>
+                {%for dodudata in doduDatas%}
+                    {%if username in dodudata.user_list%}
+                    <tbody>
+                        <tr>
+                            <td>{{dodudata.owner_name}}</td>
+                            <td>{{dodudata.file_name}}</td>
+                            <td>{{dodudata.attributes}}</td>
+                            <td><button class="btn btn-primary" data-toggle="modal" data-target="#requestModal">Request</button></td>
+                            
+                        </tr>
+                    {%endif%}
+                {% endfor %}
+                    </tbody>
+        </table>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="requestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Request Data</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form action="" method="POST">
+                       {% csrf_token %}
+                      <div class="modal-body">
+                            {%for dutaData in dutaDatas%}
+                            <table>
+                              <tr>
+                                <td>User : </td>
+                                <td>{{dutaData.user_name}}</td>
+                              </tr>
+                              <tr>
+                                <td>Key : </td>
+                                <td>{{dutaData.pub_key}}</td>
+                              </tr>
+                            </table>
+                            
+                            
+                            {%endfor%}
+                            <div class="form-group">
+                                <label for="policies">Attributes</label>
+                                <input type="text" class="form-control" required id="id_attributes" name="attributes" data-toggle="tooltip" data-placement="right" title="Add multiple attributes seperating by comma">
+                              </div>
+                        
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Request</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>    
+            </div>    
+        </div>        
+{% endblock %}

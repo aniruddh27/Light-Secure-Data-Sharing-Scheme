@@ -1,0 +1,53 @@
+{% extends 'user/user_base.html' %}
+{%block title%}User | Key Manage{%endblock%}
+{%block userContent%}
+<div class="container">
+    <h1 class="center">Key Management</h1>
+    <hr>
+    <table class="table thead-dark mt-4">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Attributes</th>
+            <th scope="col">Status</th>
+            <th scope="col">Key</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% for usr in user_attributes %}
+            <td >{{usr.user.username}}</td>
+            <td>{{usr.user.username}},{{usr.user.email}},{{usr.mobile}}</td>
+            <!-- <td>status</td> -->
+            {% if status == "Key Sent to User" %}
+            <td id="key_status">Key Recieved</td>
+            {%else%}
+            <td>{{status}}</td>
+            {% endif %}
+            {% if status == "Key Sent to User" %}
+            <td>{{pub_Key}}</td>
+            {%else%}
+            <td></td>
+            {% endif %}
+            <td>
+                <form action="{%url 'user:keyManagement'%}" id="requestKeyForm" method="POST">
+                    {%csrf_token%}
+                    {% if status == "Key Requested" %}
+                    <input type="submit" class="btn btn-success" id="requestKeyBtn" value="Done" disabled>
+                    {% elif status == "Key Generated" or status == "Key Sent to User" %}
+                    <!-- <input type="submit" class="btn btn-success" id="requestKeyBtn" value="Done" disabled> -->
+                    None
+                    {%else%}
+                    <input type="submit" class="btn btn-primary" id="requestKeyBtn" value="Request Key" onclick="changeButton()">
+                    {% endif %}
+                    <!-- <button type="submit" class="btn btn-primary" id="requestKeyBtn">Request Key</button> -->
+                </form>
+            </td>
+            {% endfor %}
+          </tr>
+          
+        </tbody>
+      </table>
+</div>
+{% endblock %}

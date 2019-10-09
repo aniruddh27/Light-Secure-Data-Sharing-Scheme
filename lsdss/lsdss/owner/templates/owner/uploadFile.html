@@ -1,0 +1,85 @@
+{% extends 'owner/owner_base.html' %}
+{%block title%}Owner | Home{%endblock%}
+{%block ownerContent%}
+    <div class="container">
+        <div class="card  mt-4 w-50 mr-auto ml-auto">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3>Browse File Here</h3>
+                </div>
+            </div>
+            <div class="card-body fileUploadCard">
+                <form action="{%url 'owner:uploadFile' %}" method="POST" enctype="multipart/form-data">
+                    {%csrf_token%}
+                    <div class=" form-group">
+                            <div class="form-group ">
+                                <label for="">File Name</label>
+                                <input type="text" name="file_name" id="id_file_name" class="form-control">
+                            </div>
+                    </div>
+                    <div class="form-group">
+                                <label for="">File</label>
+                                <input type="file" name="owner_file" id="id_owner_file" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" onclick="uploadFileintoSystem()" name="uploadFileBtn" id="uploadFileBtn" value="Upload" class="form-control btn btn-primary">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="mt-4">
+            <h2 class="text-center">Uploaded Files</h2>
+            <hr>
+            
+            <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">File Name</th>
+                        <th scope="col">File</th>
+                        <th scope="col">Action</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for file in files%}
+                    <tr>
+                        {% if not file.file_status == "File sent for Encryption" %}
+                        <td> {{file.file_name}}</td>
+                        
+                        <td><a href="../{{file.owner_file.url}}">{{file.owner_file.name}}</a> </td>
+                         <td>
+                            <a href="{% url 'owner:uploadedFileDelete' file.id %}" data-toggle="tooltip" data-placement="top" title="Delete File" class="btn btn-primary"><i class="fas fa-trash-alt"></i></a>
+
+                            <!-- <a href="javascript:{document.getElementById('deleteFile{{file.id}}').submit()}" data-toggle="tooltip" data-placement="top" title="Delete File">
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-trash-alt"></i></button>
+                                </a> -->
+                            <a href="javascript:{document.getElementById('encryptFile{{file.id}}').submit()}" data-toggle="tooltip" data-placement="top" title="Encrypt File" >
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-shield-alt"></i></button>
+                                </a>
+
+                    </td>
+
+                    {% endif %}
+                    </tr>
+
+                   
+                    <!-- FORM:send file to esp for encryption -->
+                    <form action="{% url 'owner:sendFiletoEncryption' file.id %}" id="encryptFile{{file.id}}" method="post">
+                            {% csrf_token %}
+                            <!-- <input type="hidden" name=""> -->
+                        </form>
+                    {% endfor %}
+                    
+                    </tbody>
+                </table>
+                
+            </div>
+    </div>
+{% endblock %}
+
+<!-- {%if not noData%}
+                <h2 class="text-center">No Files Uploaded</h2>
+            {%else%} -->
+            <!-- {% endif %} -->

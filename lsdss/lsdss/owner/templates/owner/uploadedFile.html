@@ -1,0 +1,59 @@
+{% extends 'owner/owner_base.html' %}
+{%block title%}Owner | Uploaded File{%endblock%}
+{%block ownerContent%}
+<div class="container mt-2">
+    <h2>Cloud Files</h2>
+    <hr>
+    <table class="table col-md-6">
+        <thead>
+            <th>File Name</th>
+            <th>Action</th>
+            <!-- <th>Shared with</th> -->
+            <tbody>
+                {% for cData in cloudData %}
+                <tr>
+                    <td>{{cData.file_name}}</td>
+                    <td><button class="btn btn-primary" data-toggle="modal" data-target="#shareModal">Share</button></td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </thead>
+    </table>
+    
+
+          
+          <!-- Modal -->
+          <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Share Data (Users List)</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        {%csrf_token%}
+                        {%for user in users%}
+                        <div class="form-check">
+                            <input class="form-check-input" name="userCheckbox" id= 'user'{{ user.user.id }}  type="checkbox" value= {{ user.user.username }} > 
+                            <label class="form-check-label" for="user{{user.user.id}}">
+                                 {{user.user.username}}
+                            </label>
+                        </div>
+                        {%endfor%}
+                    </div>
+                
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Share</button>
+                </div>
+            </form>
+              </div>
+            </div>
+          </div>
+    </div>
+
+{% endblock %}

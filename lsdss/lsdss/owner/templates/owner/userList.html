@@ -1,0 +1,34 @@
+{% extends 'owner/owner_base.html' %}
+{%block title%}Owner | User List{%endblock%}
+{%block ownerContent%}
+    <div class="container">
+        <h1>Users</h1>
+        <hr>
+        <div class="card text-center p-2 ml-auto mr-auto" style="width: 28rem;">
+            <form action="" method="post">
+                {%csrf_token%}
+            <div class="card-header">
+
+                <div class="card-title">
+                    <h3>Select Users</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                
+                {%for user in users%}
+                <div class="form-check">
+                    <input class="form-check-input" name="userCheckbox" id= 'user'{{ user.user.id }}  type="checkbox" value= {{ user.user.username }} > 
+                    <label class="form-check-label" for="user{{user.user.id}}">
+                         {{user.user.username}}
+                    </label>
+                </div>
+                {%endfor%}
+            </div>
+            <div class="footer">
+                <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+        </form>
+        </div>
+                      
+    </div>
+{% endblock %}

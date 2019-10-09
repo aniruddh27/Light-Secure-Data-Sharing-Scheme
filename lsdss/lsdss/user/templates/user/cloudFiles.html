@@ -1,0 +1,25 @@
+{% extends 'user/user_base.html' %}
+{%block title%}User | Cloud Files{%endblock%}
+{%block userContent%}
+<div class="container">
+        <h2>Cloud Files</h2>
+        <table class="table col-md-6">
+            <thead>
+              <tr>
+                <th scope="col">Owner Name</th>
+                <th scope="col">File Name</th>
+                <!-- <th scope="col">File</th> -->
+              </tr>
+            </thead>
+            <tbody>
+                {%for ducFile in ducFiles%}
+                <tr>
+                    <td>{{ducFile.owner_name}}</td>
+                    <td>{{ducFile.file_name}}</td>
+                    <!-- <td>{{ducFile.}}</td> -->
+                </tr>
+                {%endfor%}
+            </tbody>
+
+            </table>
+{%endblock%}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{%block title%}{%endblock%}
+{% block logo %} Light Secure Data Sharing Scheme - User {% endblock %}
+{% block navMenu %}
+
+<ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{%url 'user:home' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        
+        <li class="nav-item">
+            <a class="nav-link" href="{%url 'user:keyManagement' %}">Key Management</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{%url 'user:cryptography' %}">Cryptography</a>
+        </li>
+        <li class="nav-item">
+                <a class="nav-link" href="{%url 'user:cloudFiles' %}">Cloud Files</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{%url 'user:ownerNotification' %}">Owner Notification</a>
+        </li>
+        <li class="nav-item">
+                <a class="nav-link" href="{%url 'user:viewFiles' %}">View Files</a>
+        </li>
+        <li class="nav-item">
+                <a class="nav-link" href="{%url 'user:decryptedFile' %}">Decrypted Files</a>
+        </li>
+        <li class="nav-item">
+                <a class="nav-link" href="{%url 'accounts:logout' %}">Logout</a>
+        </li>
+      </ul>
+
+ {% endblock %}
+
+ {%block content%}
+{%block userContent%}
+
+{% endblock %}
+{% endblock %}

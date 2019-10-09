@@ -1,0 +1,33 @@
+{% extends 'admin/app_base.html' %}
+{%block title%}Admin | Owner {%endblock%}
+{%block adminContent%}
+
+    <div class="container">
+        <h1>Owners List</h1>
+        <hr>
+        <table class="table thead-dark">
+                <thead>
+                  <tr>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">email</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">City</th>
+                  </tr> 
+                </thead>
+                <tbody>
+                  <tr>
+                    {%for owner in owners%}
+                    <td>{{owner.user.first_name}} {{owner.user.last_name}}</td>
+                    <td>{{owner.user.username}}</td>
+                    <td>{{owner.user.email}}</td>
+                    <td>{{owner.mobile}}</td>
+                    <td>{{owner.address}}</td>
+                    <td>{{owner.city}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+    </div>
+{% endblock %}

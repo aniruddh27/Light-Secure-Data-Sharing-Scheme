@@ -1,0 +1,67 @@
+{% extends 'tpa/tpa_base.html' %}
+{%block title%}TPA | Owner Key{%endblock%}
+{%block tpaContent%}
+<div class="container">
+    <h1>Owner's Key Management</h1>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Owner Name</th>
+            <th scope="col">Attribute List</th>
+            <th scope="col">Key</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for dota in dotaData %}
+          <tr>
+            <td>{{dota.owner_name}}</td>
+            <td>{{dota.attributes.user.username}},{{dota.attributes.user.email}},{{dota.attributes.mobile}}</td>
+            <td>{{dota.pub_key}}</td>
+            <td>
+                {% if dota.status == "Key Generated"  %}
+                <!-- <a href="javascript:{document.getElementById('generateKey{{dota.id}}').submit()}" >
+                    <button type="submit" class="btn btn-success" name="_generateKeyBtn" id="generateKeyBtn" value="Done" disabled>Key Generated </button>
+                </a> -->
+                <a href="javascript:{document.getElementById('sendKey{{dota.id}}').submit()}" >
+                    <button type="submit" class="btn btn-primary" name="_sendKeyBtn" id="sendKeyBtn" value="Send Key" onclick="sendKey()">Send Key</button>
+                </a>
+
+                {%elif dota.status == "Key Sent" %}
+                <!-- <a href="javascript:{document.getElementById('generateKey{{dota.id}}').submit()}" >
+                    <button type="submit" class="btn btn-success" name="_generateKeyBtn" id="generateKeyBtn" value="Done" disabled>Generate Key</button>
+                </a>
+                <a href="javascript:{document.getElementById('sendKey{{dota.id}}').submit()}" >
+                    <button type="submit" class="btn btn-success" name="_sendKeyBtn" id="sendKeyBtn" value="Send Key" onclick="sendKey()" disabled>Key Sent</button>
+                </a> -->
+                Key Sent Owner
+                <td>None</td>
+                {%else%}
+                <a href="javascript:{document.getElementById('generateKey{{dota.id}}').submit()}" >
+                    <button type="submit" class="btn btn-primary" name="_generateKeyBtn" id="generateKeyBtn" value="Done">Generate Key</button>
+                </a>
+                <!-- <a href="javascript:{document.getElementById('sendKey{{dota.id}}').submit()}" >
+                    <button type="submit" class="btn btn-primary" name="_sendKeyBtn" id="sendKeyBtn" value="Send Key" onclick="sendKey()" disabled>Send Key</button>
+                </a> -->
+                {% endif %}
+                    
+            </td>
+          </tr>
+          <!-- FORM:Encrypt file -->
+          <form action="{% url 'tpa:generatePubKey' dota.id %}" id="generateKey{{dota.id}}" method="post">
+              {% csrf_token %}
+              <!-- <input type="hidden" name=""> -->
+          </form>
+
+          <!-- FORM:Encrypt file -->
+          <form action="{% url 'tpa:sendPubKey' dota.id %}" id="sendKey{{dota.id}}" method="post">
+            {% csrf_token %}
+            <!-- <input type="hidden" name=""> -->
+          </form>
+          {% endfor %}
+
+        </tbody>
+      </table>
+</div>
+{% endblock %}

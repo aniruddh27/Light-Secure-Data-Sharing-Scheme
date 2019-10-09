@@ -1,0 +1,84 @@
+{% extends 'owner/owner_base.html' %}
+{%block title%}Owner | Revocation Notification{%endblock%}
+{%block ownerContent%}
+<div class="container">
+    <h1>Revocating Files</h1>
+    <hr>
+    <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">File Name</th>
+                <th scope="col">File</th>
+                <th scope="col">Attributes</th>
+                <th scope="col">Policies</th>
+                <th scope="col">Total Downloads</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                {%for ct in ctDatas%}
+                  {%if ct.downloadCount >= 3 %}
+                  <tr>
+                    <td>{{ct.file_name}}</td>
+                    <td>{{ct.enc_file}}</td>
+                    <td>{{ct.attributes}}</td>
+                    <td>{{ct.policies}}</td>
+                    <td>{{ct.downloadCount}}</td>
+                    {% if ct.status == "File Sent for Re-Encryption"%}
+                    <td>{{ct.status}}</td>
+                    <td>None</td>
+                    {%else%}
+                    <td>File is to be revocated</td>
+                    <td><button class="btn btn-primary" data-toggle="modal" data-target="#revokeModal">Revoke File</button></td>
+                    <!--<td>-->
+                    <!--    <a href="javascript:{document.getElementById('revokeFile{{ct.id}}').submit()}" >-->
+                    <!--        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#revokeModal" >Revoke</button>-->
+                    <!--    </a>-->
+                    <!--</td>-->
+                    {%endif%}
+
+                  </tr>
+                {% endif %}
+              {%endfor%}
+            </tbody>
+          </table>
+
+          <!-- Modal -->
+          <div class="modal fade" id="revokeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog-md" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Revoke File</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    {%for ctData in ctDatas %}
+
+                    <form action="{%url 'owner:revocation' ctData.id %}"  method="post">
+                        {%csrf_token%}
+                        <strong>File Name</strong>  :  {{ctData.file_name}}<br>
+                        <strong>File</strong>       :  {{ctData.enc_file}}<br>
+                        <strong>Key</strong>        :  {{ctData.pub_key}}<br>
+                        <div class="form-group">
+                            <label for="">Update Policy</label>
+                            <input type="text" class="form-control" required id="id_policies" name="policies" data-toggle="tooltip" data-placement="right" title="Add multiple policies seperating by comma">
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Revoke File</button>
+                    </div>
+                </form>
+
+                {%endfor%}
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+{%endblock%}

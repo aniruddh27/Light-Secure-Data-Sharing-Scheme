@@ -1,0 +1,86 @@
+{% extends 'enc_dec/enc_dec_base.html' %}
+{%block title%}Cryptography | Home{%endblock%}
+{%block encdecContent%}
+    <div class="container">
+        <div class="h1">Files for Encryption</div>
+        <hr>
+        <table class="table ">
+            <thead>
+              <tr>
+                <th scope="col">Owner Name</th>
+                <th scope="col">Key</th>
+                <th scope="col">File Name</th>
+                <th scope="col">File</th>
+                <th scope="col">Encrypted File</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                {%for doesp in doespData %}
+              <tr>
+                <td>{{doesp.owner_name}}</td>
+                <td>{{doesp.pub_key}}</td>
+                <td>{{doesp.file_name}}</td>
+                <td><a href="../{{doesp.file_path}}">{{doesp.file_path}}</a></td>
+                <td><a href="../{{doesp.enc_file}}">{{doesp.enc_file}}</a></td>
+                {% if doesp.status == "File sent for Encryption"%}
+                <td>File to be Encrypted</td>
+                {%else%}
+                <td>{{doesp.status}}</td>
+                {% endif %}
+                <td>
+                  {%if doesp.status == 'File Encrypted' %}
+                  <!-- <a href="javascript:{document.getElementById('encryptOwnerFile{{doesp.id}}').submit()}" >
+                      <button type="submit" class="btn btn-success" name="encryptFileBtn" id="encryptFileBtn" disabled>Encrypted</button>
+                      </a> -->
+
+                      <a href="javascript:{document.getElementById('sendEncryptedFile{{doesp.id}}').submit()}" >
+                      <button type="submit" class="btn btn-primary" name="sendEncryptedFileBtn" id="sendEncryptedFileBtn" >Send</button>
+                    </a>
+                  {%elif doesp.status == 'File Sent to Owner' %}
+                  None
+                  <!-- <a href="javascript:{document.getElementById('encryptOwnerFile{{doesp.id}}').submit()}" >
+                      <button type="submit" class="btn btn-success" name="encryptFileBtn" id="encryptFileBtn" disabled>Encrypt</button>
+                      </a>
+                      <br>
+                      <a href="javascript:{document.getElementById('sendEncryptedFile{{doesp.id}}').submit()}" >
+                      <button type="submit" class="btn btn-success" name="sendEncryptedFileBtn" id="sendEncryptedFileBtn" disabled>Sent</button>
+                    </a> -->
+                    {%elif doesp.status == 'File Uploaded' %}
+                    None
+                  <!-- <a href="javascript:{document.getElementById('encryptOwnerFile{{doesp.id}}').submit()}" >
+                      <button type="submit" class="btn btn-success" name="encryptFileBtn" id="encryptFileBtn" disabled>Encrypt</button>
+                      </a>
+                      <br>
+                      <a href="javascript:{document.getElementById('sendEncryptedFile{{doesp.id}}').submit()}" >
+                      <button type="submit" class="btn btn-success" name="sendEncryptedFileBtn" id="sendEncryptedFileBtn" disabled>Sent</button>
+                    </a> -->
+                  {%else%}
+                    <a href="javascript:{document.getElementById('encryptOwnerFile{{doesp.id}}').submit()}" >
+                    <button type="submit" class="btn btn-primary" name="encryptFileBtn" id="encryptFileBtn">Encrypt</button>
+                    </a>
+                    <!-- <a href="javascript:{document.getElementById('sendEncryptedFile{{doesp.id}}').submit()}" >
+                    <button type="submit" class="btn btn-primary" name="sendEncryptedFileBtn" id="sendEncryptedFileBtn">Send</button> -->
+                  </a>
+                </td>
+                {% endif %}
+              </tr>
+
+              <!-- FORM:Encrypt file -->
+              <form action="{% url 'encdec:encryptFile' doesp.id %}" id="encryptOwnerFile{{doesp.id}}" method="post">
+                    {% csrf_token %}
+                    <!-- <input type="hidden" name=""> -->
+                </form>
+
+                <!-- Send encrypted file -->
+                <form action="{% url 'encdec:sendEncryptedFiles' doesp.id %}" id="sendEncryptedFile{{doesp.id}}" method="post">
+                  {% csrf_token %}
+                  <!-- <input type="hidden" name=""> -->
+              </form>
+              {% endfor %}
+              
+            </tbody>
+          </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'user/user_base.html' %}
+{%block title%}User | Files{%endblock%}
+{%block userContent%}
+<div class="container mt-2">
+<h2>View Files</h2>
+<hr>
+<table class="table">
+    <thead>
+        <th>File Name</th>
+        <th>Enc File</th>
+        {% if status == 'File Sent' %}
+        <th>Dec File</th>
+        {%endif%}
+        <th>status</th>
+        <th>Action</th>
+        <tbody>
+            
+            {% for ducfile in ducfiles %}
+            <tr>
+                <td>{{ducfile.file_name}}</td>
+                <td>{{ducfile.enc_file}}</td>
+                {% if ducfile.status == 'File Sent to User' %}
+                <td>Encrypted File Received </td>
+                {% elif ducfile.status == 'Decrypted File Sent' %}
+                <td>Decrypted File Received </td>
+                {%else%}
+                <td>{{ducfile.status}}</td>
+                {% endif %}
+
+                
+
+                {% if  ducfile.status == 'File Sent to User' %}
+                <td>
+                    <a  href="javascript:{document.getElementById('decryptFile{{ducfile.id}}').submit()}"><button class="btn btn-primary"> Decrypt </button> </a>
+
+                <a  href="../{{ducfile.enc_file}}"><button class="btn btn-primary" > View File</button> </a>
+            </td>
+                {% elif  ducfile.status == 'Not Verified' %}
+                <td>
+                None
+            </td>
+                {% else %}
+                <td>None</td>
+                <!-- <td>
+                    <a  href="../{{ducfile.enc_file}}"><button class="btn btn-primary" >Encrypted File </button></a>
+                    <a  href="javascript:{document.getElementById('decryptFile{{ducfile.id}}').submit()}"><button class="btn btn-primary"> Decrypt </button></a>
+                </td> -->
+
+               
+                {% endif %}
+            </tr>
+            <!-- FORM:send file to esp for decryption -->
+            <form action="{% url 'user:sendFiletoDecryption' ducfile.id %}" id="decryptFile{{ducfile.id}}" method="post">
+                {% csrf_token %}
+                <!-- <input type="hidden" name=""> -->
+            </form>
+            {% endfor %}
+        </tbody>
+    </thead>
+</table>
+     
+{% endblock %}

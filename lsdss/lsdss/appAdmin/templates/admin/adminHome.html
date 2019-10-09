@@ -1,0 +1,23 @@
+{% extends 'admin/app_base.html' %}
+{%block title%}Admin | Home{%endblock%}
+
+{% block content%}
+{%block adminContent%}
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>Delete ALL Table Data</td>
+                <td>
+                    <a  href="javascript:{document.getElementById('deleteAll').submit()}"><button class="btn btn-primary"> Delete All </button></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- FORM:send file to esp for decryption -->
+    <form action="{% url 'adminApp:deleteAllData' %}" id="deleteAll" method="post">
+            {% csrf_token %}
+            <!-- <input type="hidden" name=""> -->
+        </form>
+{% endblock %}
+{% endblock %}

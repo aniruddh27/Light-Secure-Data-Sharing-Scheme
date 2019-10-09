@@ -1,0 +1,6 @@
+This is sample text file.
+
+netstat -a -n -o
+taskill/pid [target_id]/F
+
+

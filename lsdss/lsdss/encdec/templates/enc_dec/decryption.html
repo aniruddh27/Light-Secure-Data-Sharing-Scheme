@@ -1,0 +1,65 @@
+{% extends 'enc_dec/enc_dec_base.html' %}
+{%block title%}Cryptography | Decryption {%endblock%}
+{%block encdecContent%}
+<h2>Files for Decryption</h2>
+
+<hr>
+<table class="table">
+    <thead>
+        <th>User Name</th>
+        <th>Key</th>
+        <th>File Name</th>
+        <th>Enc File</th>
+        <th>Dec File</th>
+        <th>Status</th>
+        <th>Action</th>
+        <tbody>
+            {% for ducdec in ducdecData%}
+            <tr>
+                <td>{{ducdec.user_name}}</td>
+                <td>{{ducdec.pub_key}}</td>
+                <td>{{ducdec.file_name}}</td>
+                <td>{{ducdec.enc_file}}</td>
+                <td>{{ducdec.dec_file}}</td>
+                {% if ducdec.status == 'File Sent for Decryption' %}
+                <td>File Recieved for Decryption</td>
+                {%else%}
+                <td>{{ducdec.status}}</td>
+                {%endif%}
+                <td>
+                    {%if ducdec.status == 'File Decrypted'%}
+                    <!-- <a  href="javascript:{document.getElementById('decryptFile{{ducdec.id}}').submit()}"><button class="btn btn-success" disabled>Decrypted</button> </a> -->
+                    <a  href="javascript:{document.getElementById('sendDecryptedFile{{ducdec.id}}').submit()}"><button class="btn btn-primary" >Send</button></a>
+
+                    {% elif ducdec.status == 'Decrypted File Sent' %}
+                    None
+                    <!-- <a  href="javascript:{document.getElementById('decryptFile{{ducdec.id}}').submit()}"><button class="btn btn-success" disabled>Decrypted</button> </a>
+                    <a  href="javascript:{document.getElementById('sendDecryptedFile{{ducdec.id}}').submit()}"><button class="btn btn-success" disabled>Sent</button></a> -->
+
+                    {% elif ducdec.status == 'File Sent for Decryption' %}
+                    <a  href="javascript:{document.getElementById('decryptFile{{ducdec.id}}').submit()}"><button class="btn btn-primary" >Decrypt</button> </a>
+                    <!-- <a  href="javascript:{document.getElementById('sendDecryptedFile{{ducdec.id}}').submit()}"><button class="btn btn-success" disabled>Sent</button></a> -->
+                    {% else %}
+                    <a  href="javascript:{document.getElementById('decryptFile{{ducdec.id}}').submit()}"><button class="btn btn-primary" >Decrypt</button> </a>
+                    <a  href="javascript:{document.getElementById('sendDecryptedFile{{ducdec.id}}').submit()}"><button class="btn btn-primary" disabled>Send</button></a></a>
+                    {% endif %}
+
+                </td>
+            </tr>
+
+            <!-- FORM:Decrypt File -->
+            <form action="{% url 'encdec:decryptFile' ducdec.id %}" id="decryptFile{{ducdec.id}}" method="post">
+                    {% csrf_token %}
+                    <!-- <input type="hidden" name=""> -->
+                </form>
+
+            <form action="{% url 'encdec:sendDecryptedFile' ducdec.id %}" id="sendDecryptedFile{{ducdec.id}}" method="post">
+                        {% csrf_token %}
+                        <!-- <input type="hidden" name=""> -->
+                    </form>
+            {% endfor %}
+        </tbody>
+    </thead>
+</table>
+
+{% endblock %}

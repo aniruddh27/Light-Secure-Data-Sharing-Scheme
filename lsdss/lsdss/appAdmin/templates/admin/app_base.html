@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{%block title%}{%endblock%}
+{%block logo%} Light Secure Data Sharing Scheme - Admin {% endblock %}
+{% block navMenu %}
+
+<ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{%url 'adminApp:adminHome' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="{%url 'adminApp:users' %}">Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{%url 'adminApp:owners' %}">Owners</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Files</a>
+        </li> -->
+        <li class="nav-item">
+            <a class="nav-link" href="{%url 'accounts:logout' %}">Logout</a>
+        </li>
+      </ul>
+
+ {% endblock %}
+{% block content %}
+{%block adminContent%}
+
+{% endblock %}
+{% endblock %}
