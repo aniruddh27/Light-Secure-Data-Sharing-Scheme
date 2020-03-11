@@ -4,7 +4,8 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
 # Create your views here.
 def Home(request):
-    context={}
+    pageTitle = 'Cloud'
+    context={'pageTitle':pageTitle}
     return render(request,'cloud/Home.html',context)
 
 def uploadedFiles(request):
